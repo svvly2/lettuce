@@ -46,6 +46,16 @@ jobs:
           go build -o desktop/lettuce-daemon.exe ./cmd/daemon
       - name: Install desktop dependencies
         run: npm ci --prefix desktop
+      - name: Create release tag
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch --tags
+          if (-not (git tag --list "v${{ inputs.version }}")) {
+            git tag "v${{ inputs.version }}"
+            git push origin "v${{ inputs.version }}"
+          }
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
