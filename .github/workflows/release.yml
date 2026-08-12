@@ -1,0 +1,57 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version without the v prefix (for example 0.1.15)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - uses: ok-nick/setup-aftman@v0.4.2
+      - name: Verify requested version
+        shell: pwsh
+        run: |
+          if ('${{ inputs.version }}' -notmatch '^\d+\.\d+\.\d+$') { throw 'Version must use x.y.z format.' }
+      - name: Scan for committed secrets
+        shell: pwsh
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-secrets.ps1
+      - name: Set release version
+        shell: pwsh
+        run: npm version '${{ inputs.version }}' --no-git-tag-version --prefix desktop
+      - name: Build Studio plugin
+        shell: pwsh
+        run: rojo build plugin/default.project.json -o desktop/Lettuce-Plugin.rbxm
+      - name: Test and build daemon
+        shell: pwsh
+        run: |
+          go test ./cmd/daemon ./internal/oauth ./internal/roblox/... ./internal/app/assets/animation ./internal/app/assets/sound
+          go build -o desktop/lettuce-daemon.exe ./cmd/daemon
+      - name: Install desktop dependencies
+        run: npm ci --prefix desktop
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run release:win --prefix desktop
+      - name: Upload Studio plugin separately
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: gh release upload "v${{ inputs.version }}" desktop/Lettuce-Plugin.rbxm --clobber

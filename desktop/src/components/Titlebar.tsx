@@ -1,0 +1,2 @@
+import { desktop } from '../services/desktop'; import { Icon } from './Icon'; import lettuceLogo from '../assets/lettuce.svg';
+export function Titlebar() { return <header className="titlebar"><div className="wordmark"><span className="leaf"><img src={lettuceLogo} alt="" /></span><span>lettuce</span></div><div className="window-actions"><button aria-label="Minimize" onClick={() => void desktop().window('minimize')}><Icon name="minimize"/></button><button aria-label="Close" onClick={() => void desktop().window('close')}><Icon name="close"/></button></div></header>; }

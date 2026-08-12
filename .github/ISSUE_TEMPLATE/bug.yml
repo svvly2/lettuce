@@ -1,0 +1,30 @@
+name: Bug report
+description: Report a reproducible Lettuce problem
+title: "bug: "
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Lettuce version
+      placeholder: 0.1.14
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Remove OAuth tokens, cookies, keys, and personal information from logs.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs
+      render: text

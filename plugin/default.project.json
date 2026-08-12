@@ -1,0 +1,9 @@
+{
+    "name": "Lettuce",
+    "tree": {
+        "$className": "Folder",
+        "Lettuce": {
+            "$path": "standalone"
+        }
+    }
+}

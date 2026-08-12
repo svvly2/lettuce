@@ -1,0 +1,35 @@
+:root { font-family: "Segoe UI Variable Text", "Segoe UI", Inter, system-ui, sans-serif !important; }
+.leaf { background: transparent; color: #f4f4f2; border-radius: 0; }
+.leaf img { width: 19px; height: 19px; filter: invert(1); }
+body, button, input { font-family: inherit; }
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.signed-in .canvas { padding-top: 96px; background: #080808; }
+.view { max-width: 820px; }
+.identity strong { font-size: 12px; font-weight: 650; letter-spacing: -.02em; }
+.identity span { margin-top: 1px; color: #777; font: 10px/1.2 "Segoe UI Variable Text", "Segoe UI", sans-serif; letter-spacing: -.01em; }
+.floating-header .profile { min-width: 190px; background: #141414d9; }
+.home-title { display: flex; align-items: end; justify-content: space-between; padding: 20px 2px 28px; }
+.home-title h1 { margin: 0; font-size: 32px; line-height: 1; font-weight: 650; letter-spacing: -.055em; }
+.home-title p { margin: 8px 0 0; color: #777; font-size: 12px; letter-spacing: -.015em; }
+.text-button { border: 0; background: transparent; color: #777; padding: 8px; font-size: 11px; }
+.text-button:hover { color: #fff; }
+.home-empty { min-height: 420px; display: grid; place-content: center; justify-items: center; text-align: center; }
+.home-empty > span { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 16px; color: #777; background: #111; border: 1px solid #1d1d1d; }
+.home-empty svg { width: 20px; }
+.home-empty .pixel-face { width: 56px; height: 56px; border: 0; border-radius: 0; background: transparent; color: #707070; }
+.home-empty .pixel-face svg { width: 42px; height: 42px; shape-rendering: crispEdges; stroke-linecap: square; stroke-linejoin: miter; }
+.home-empty h2 { margin: 18px 0 6px; font-size: 15px; font-weight: 600; letter-spacing: -.025em; }
+.home-empty p { margin: 0; color: #666; font-size: 11px; }
+.clean-list { overflow: hidden; border: 1px solid #1d1d1d; border-radius: 18px; background: #0d0d0d; }
+.clean-job { min-height: 56px; display: grid; grid-template-columns: 30px 1fr 30px; align-items: center; gap: 10px; padding: 9px 13px; border-bottom: 1px solid #191919; animation: job-in .25s ease both; }
+.clean-job:last-child { border-bottom: 0; }
+.clean-job > div { min-width: 0; display: grid; gap: 4px; }
+.clean-job strong { font-size: 12px; font-weight: 600; letter-spacing: -.02em; }
+.clean-job small { color: #666; font-size: 10px; }
+.clean-job .progress { margin-top: 4px; }
+.dock { border-radius: 20px; background: #181818dc; }
+.dock button { min-width: 76px; height: 48px; border-radius: 15px; }
+.dock span { font-family: inherit; font-size: 9px; }
+.studio-pill small { font-family: inherit; }
+.logs time, .job-main span, .job-state, .login small, .login-foot { font-family: inherit; }

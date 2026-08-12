@@ -1,0 +1,19 @@
+.login-app { background: #080808; overflow: hidden; }
+.login-simple { width: min(390px, calc(100vw - 48px)); place-self: center; display: flex; flex-direction: column; align-items: stretch; animation: login-in .35s cubic-bezier(.2,.8,.2,1); }
+.login-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 56px; }
+.login-brand > span { width: 38px; height: 38px; display: grid; place-items: center; color: #f2f2ef; }
+.login-brand > span img { width: 32px; height: 32px; filter: invert(1); }
+.login-brand strong { font-size: 16px; font-weight: 650; letter-spacing: -.035em; }
+.login-copy h1 { margin: 0; color: #f1f1ef; font-size: 36px; line-height: 1.08; font-weight: 620; letter-spacing: -.055em; }
+.login-copy p { margin: 14px 0 0; color: #747474; font-size: 13px; letter-spacing: -.015em; }
+.login-primary { height: 50px; margin-top: 34px; padding: 0 17px; border: 0; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; background: #f1f1ee; color: #090909; font-size: 12px; font-weight: 650; transition: transform .18s ease, background .18s ease; }
+.login-primary:hover { transform: translateY(-1px); background: #fff; }
+.login-primary:disabled { opacity: .55; cursor: wait; }
+.login-primary svg { width: 22px; height: 22px; stroke-width: 2.4; transition: transform .18s ease; }
+.login-primary:hover svg { transform: translate(2px,-2px); }
+.login-error { margin-top: 10px; color: #ff6868; font-size: 10px; text-align: center; }
+.discord-link { align-self: center; margin-top: 24px; padding: 8px 10px; border: 0; border-radius: 10px; display: flex; align-items: center; gap: 8px; background: transparent; color: #737373; font-size: 11px; transition: color .18s ease, background .18s ease; }
+.discord-link:hover { color: #bbb; background: #101010; }
+.discord-link img { width: 18px; height: 14px; object-fit: contain; }
+@keyframes login-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .login-simple { animation: none; } }

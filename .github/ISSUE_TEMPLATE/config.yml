@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/svvly2/lettuce/security/advisories/new
+    about: Report vulnerabilities privately.
+  - name: Discord
+    url: https://discord.gg/4ycV7TUX6G
+    about: Community questions and support.

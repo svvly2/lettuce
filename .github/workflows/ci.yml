@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - uses: ok-nick/setup-aftman@v0.4.2
+      - name: Secret scan
+        shell: pwsh
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-secrets.ps1
+      - name: Backend tests
+        run: go test ./cmd/daemon ./internal/oauth ./internal/roblox/... ./internal/app/assets/animation ./internal/app/assets/sound
+      - name: Desktop checks
+        run: |
+          npm ci --prefix desktop
+          npm run typecheck --prefix desktop
+      - name: Plugin build
+        run: rojo build plugin/default.project.json -o Lettuce-Plugin.rbxm
