@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Added an in-app release log with clean version cards.
+- Added a compact, once-per-version release note on the main page.
 - Kept Settings exclusively in the bottom navigation.
 - Simplified the account menu and refined the Studio port typography.
 

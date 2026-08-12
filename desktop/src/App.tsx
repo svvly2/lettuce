@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Icon } from './components/Icon';
 import { ProfileMenu } from './components/ProfileMenu';
 import { QueueView } from './components/QueueView';
-import { ReleaseNotes } from './components/ReleaseNotes';
+import { ReleaseNotice } from './components/ReleaseNotes';
 import { SettingsDialog } from './components/SettingsDialog';
 import { Titlebar } from './components/Titlebar';
 import { useDesktop } from './hooks/useDesktop';
@@ -13,7 +13,7 @@ import lettuceLogo from './assets/lettuce.svg';
 export function App() {
   const { snapshot, login, logout, retry, clearCompleted, updateSettings } = useDesktop();
   const [settings, setSettings] = useState(false);
-  const [page, setPage] = useState<'queue' | 'activity' | 'updates'>('queue');
+  const [page, setPage] = useState<'queue' | 'activity'>('queue');
   const [loginState, setLoginState] = useState<'idle' | 'opening' | 'error'>('idle');
   const beginLogin = async () => { setLoginState('opening'); try { await login(); setLoginState('idle'); } catch { setLoginState('error'); } };
   if (!snapshot) return <div className="boot">lettuce</div>;
@@ -27,12 +27,11 @@ export function App() {
       <section className="view" key={page}>
         {page === 'queue' && <QueueView jobs={snapshot.queue} retry={(id) => void retry(id)} clear={() => void clearCompleted()} />}
         {page === 'activity' && <><div className="page-heading"><div><h1>activity</h1><p>uploads, retries, and studio stuff.</p></div></div><section className="panel logs">{snapshot.logs.length ? snapshot.logs.map((log) => <div key={log.id}><time>{log.at}</time><span className={log.level} /><p>{log.message}</p></div>) : <div className="empty"><h3>quiet in here</h3><p>events show up when studio connects.</p></div>}</section></>}
-        {page === 'updates' && <ReleaseNotes currentVersion={snapshot.version} />}
       </section>
+      {page === 'queue' && <ReleaseNotice version={snapshot.version} />}
       <nav className="dock" aria-label="Main navigation">
         <button className={page === 'queue' ? 'active' : ''} onClick={() => setPage('queue')}><Icon name="queue" filled={page === 'queue'} /><span>queue</span></button>
         <button className={page === 'activity' ? 'active' : ''} onClick={() => setPage('activity')}><Icon name="activity" filled={page === 'activity'} /><span>activity</span></button>
-        <button className={page === 'updates' ? 'active' : ''} onClick={() => setPage('updates')}><Icon name="updates" filled={page === 'updates'} /><span>updates</span></button>
         <button onClick={() => setSettings(true)}><Icon name="settings" /><span>settings</span></button>
       </nav>
     </main>
