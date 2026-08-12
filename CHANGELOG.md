@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added an in-app release log with clean version cards.
+- Kept Settings exclusively in the bottom navigation.
+- Simplified the account menu and refined the Studio port typography.
+
 ## 0.1.14
 
 - Added Roblox OAuth 2.0 Authorization Code with PKCE.

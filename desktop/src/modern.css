@@ -31,5 +31,16 @@ body, button, input { font-family: inherit; }
 .dock { border-radius: 20px; background: #181818dc; }
 .dock button { min-width: 76px; height: 48px; border-radius: 15px; }
 .dock span { font-family: inherit; font-size: 9px; }
-.studio-pill small { font-family: inherit; }
+.studio-pill small { color: #777; font-family: inherit; font-size: 10px; font-weight: 650; line-height: 1; letter-spacing: -.015em; }
+.account-menu { width: 132px; }
+.release-heading { align-items: center; }
+.release-heading > span { padding: 7px 10px; border: 1px solid #242424; border-radius: 999px; background: #101010; color: #777; font-size: 10px; font-weight: 650; }
+.release-list { display: grid; gap: 12px; }
+.release-card { overflow: hidden; padding: 22px; border: 1px solid #ffffff10; border-radius: 20px; background: #0e0e0ed9; box-shadow: 0 18px 50px #0004, inset 0 1px #ffffff08; }
+.release-card header { display: flex; align-items: center; gap: 9px; margin-bottom: 18px; }
+.release-card header strong { font-size: 18px; font-weight: 650; letter-spacing: -.035em; }
+.release-card header span { padding: 4px 7px; border-radius: 999px; background: #f1f1ee; color: #080808; font-size: 8px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+.release-card ul { display: grid; gap: 11px; margin: 0; padding: 0; list-style: none; }
+.release-card li { position: relative; padding-left: 16px; color: #999; font-size: 11px; line-height: 1.45; }
+.release-card li::before { content: ''; position: absolute; top: .55em; left: 1px; width: 4px; height: 4px; border-radius: 50%; background: #e7e7e3; }
 .logs time, .job-main span, .job-state, .login small, .login-foot { font-family: inherit; }

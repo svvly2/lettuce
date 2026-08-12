@@ -8,9 +8,11 @@ const paths: Record<string, ReactNode> = {
   discord: <path d="M19 5.5A16 16 0 0 0 15 4l-.5 1.1a14 14 0 0 0-5 0L9 4a16 16 0 0 0-4 1.5C2.5 9.2 1.8 12.8 2 16.3A16 16 0 0 0 7 19l1.2-1.7a9 9 0 0 1-1.8-.9l.5-.4a11.5 11.5 0 0 0 10.2 0l.5.4a9 9 0 0 1-1.8.9L17 19a16 16 0 0 0 5-2.7c.2-3.5-.5-7.1-3-10.8ZM8.8 14.5c-1 0-1.8-1-1.8-2.2s.8-2.2 1.8-2.2 1.8 1 1.8 2.2-.8 2.2-1.8 2.2Zm6.4 0c-1 0-1.8-1-1.8-2.2s.8-2.2 1.8-2.2 1.8 1 1.8 2.2-.8 2.2-1.8 2.2Z"/>,
   sad: <><path d="M5 5h14v14H5z"/><path d="M8 9h2m4 0h2m-7 6c1.7-1.5 4.3-1.5 6 0"/></>,
   arrowUpRight: <><path d="M7 17 17 7"/><path d="M8 7h9v9"/></>,
+  updates: <><path d="M6 3h9l3 3v15H6z"/><path d="M14 3v4h4M9 11h6m-6 4h6"/></>,
 };
 const filledPaths: Record<string, ReactNode> = {
   queue: <><rect x="3.5" y="4" width="17" height="6" rx="2"/><rect x="3.5" y="14" width="17" height="6" rx="2"/><rect x="7" y="8.5" width="2" height="7" rx="1"/><rect x="15" y="8.5" width="2" height="7" rx="1"/></>,
   activity: <path d="M3 12h4v9H3zm7-7h4v16h-4zm7 4h4v12h-4z" />,
+  updates: <><path d="M5 2.5h10.4L19.5 7v14.5H5z"/><path d="M14 2.5V8h5.5" fill="#080808" stroke="#080808"/><rect x="8" y="11" width="8" height="2" rx="1" fill="#080808" stroke="none"/><rect x="8" y="15" width="8" height="2" rx="1" fill="#080808" stroke="none"/></>,
 };
 export function Icon({ name, filled = false, ...props }: SVGProps<SVGSVGElement> & { name: string; filled?: boolean }) { return <svg viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.15" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>{filled ? filledPaths[name] ?? paths[name] : paths[name]}</svg>; }
