@@ -1,10 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.1.15
 
 - Added a compact, once-per-version release note on the main page.
 - Kept Settings exclusively in the bottom navigation.
 - Simplified the account menu and refined the Studio port typography.
+- Simplified the public project page and download flow.
+- Moved automatic update scheduling into a focused desktop module.
+- Added clean GitHub CI, release automation, and secret scanning.
 
 ## 0.1.14
 

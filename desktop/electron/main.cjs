@@ -2,10 +2,10 @@ const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const { spawn } = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
-const { autoUpdater } = require('electron-updater');
+const { startUpdater } = require('./updater.cjs');
 
 const API = 'http://127.0.0.1:39000/api';
-let windowRef; let daemon; let timer; let snapshot = null;
+let windowRef; let daemon; let timer; let stopUpdater = () => {}; let snapshot = null;
 const defaultSettings = { port: 38073, concurrency: 3, maxRetries: 3, launchAtLogin: false, notifications: true, autoUpdate: true };
 
 function backendPath() {
@@ -43,20 +43,11 @@ function createWindow() {
   windowRef.once('ready-to-show', () => windowRef.show());
   if (process.env.VITE_DEV_SERVER_URL) void windowRef.loadURL(process.env.VITE_DEV_SERVER_URL); else void windowRef.loadFile(path.join(app.getAppPath(), 'dist', 'index.html'));
 }
-function startUpdater() {
-  if (!app.isPackaged) return;
-  autoUpdater.autoDownload = true;
-  autoUpdater.autoInstallOnAppQuit = true;
-  autoUpdater.logger = null;
-  const check = () => autoUpdater.checkForUpdatesAndNotify().catch(() => {});
-  setTimeout(check, 8000);
-  setInterval(check, 4 * 60 * 60 * 1000);
-}
 ipcMain.handle('lettuce:snapshot', async () => { if (!snapshot) await poll(); return snapshot; });
 ipcMain.handle('lettuce:login', async () => { const { url } = await request('/oauth/start'); if (url) await shell.openExternal(url); });
 ipcMain.handle('lettuce:command', (_event, action, payload = {}) => request('/command', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action, ...payload }) }));
 ipcMain.handle('lettuce:window', (_event, action) => { if (action === 'minimize') windowRef?.minimize(); if (action === 'close') windowRef?.close(); });
 ipcMain.handle('lettuce:open-external', (_event, url) => { if (url === 'https://discord.gg/4ycV7TUX6G') return shell.openExternal(url); });
 
-app.whenReady().then(() => { installStudioPlugin(); startDaemon(); createWindow(); void poll(); timer = setInterval(poll, 1000); startUpdater(); });
-app.on('window-all-closed', () => { clearInterval(timer); daemon?.kill(); if (process.platform !== 'darwin') app.quit(); });
+app.whenReady().then(() => { installStudioPlugin(); startDaemon(); createWindow(); void poll(); timer = setInterval(poll, 1000); stopUpdater = startUpdater({ packaged: app.isPackaged }); });
+app.on('window-all-closed', () => { clearInterval(timer); stopUpdater(); daemon?.kill(); if (process.platform !== 'darwin') app.quit(); });

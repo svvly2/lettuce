@@ -35,7 +35,7 @@ jobs:
         run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-secrets.ps1
       - name: Set release version
         shell: pwsh
-        run: npm version '${{ inputs.version }}' --no-git-tag-version --prefix desktop
+        run: npm version '${{ inputs.version }}' --allow-same-version --no-git-tag-version --prefix desktop
       - name: Build Studio plugin
         shell: pwsh
         run: rojo build plugin/default.project.json -o desktop/Lettuce-Plugin.rbxm
