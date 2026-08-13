@@ -6,6 +6,7 @@
 - Preserved newer retries when cleanup timers from older jobs finish.
 - Added smooth visual transitions for changing queue states.
 - Replaced concurrent Electron publishing with one atomic GitHub release upload.
+- fixed a whole lot of other random shit 
 
 ## 0.1.16
 
