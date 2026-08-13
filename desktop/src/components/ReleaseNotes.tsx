@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Icon } from './Icon';
 
 const releases = [
+  { version: '0.1.17', changes: ['finished and failed queue items clear after 30 seconds', 'smooth fixed-size queue and activity scrolling', 'reliable single-release automatic update publishing'] },
   { version: '0.1.16', changes: ['failed uploads now stand out in red', 'queue and activity stay fixed while their lists scroll', 'smoother overflow with stable, lightweight scrollbars', 'a cleaner complete update history'] },
   { version: '0.1.15', changes: ['cleaner navigation and account menu', 'a simpler studio connection indicator', 'release notes now appear on the main page', 'automatic update logic moved into its own module'] },
   { version: '0.1.14', changes: ['roblox sign-in with oauth and pkce', 'secure sessions with automatic token refresh', 'automatic animation and sound uploads', 'rebuilt studio plugin and automatic updates'] },

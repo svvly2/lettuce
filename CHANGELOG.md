@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.17
+
+- Automatically removed completed and failed queue items after 30 seconds.
+- Preserved newer retries when cleanup timers from older jobs finish.
+- Added smooth visual transitions for changing queue states.
+- Replaced concurrent Electron publishing with one atomic GitHub release upload.
+
 ## 0.1.16
 
 - Made failed uploads immediately visible with a consistent red error state.

@@ -10,5 +10,13 @@ rojo build (Join-Path $repo 'plugin\default.project.json') -o (Join-Path $deskto
 $env:GOCACHE = Join-Path $repo '.gocache'
 $env:GOMODCACHE = Join-Path $repo '.gomodcache'
 go build -o (Join-Path $desktop 'lettuce-daemon.exe') (Join-Path $repo 'cmd\daemon')
-npm.cmd run release:win --prefix $desktop
-Write-Host "Published Lettuce $Version. Commit package.json/package-lock.json and tag v$Version."
+npm.cmd run package:win --prefix $desktop
+$tag = "v$Version"
+$assets = @(
+    (Join-Path $desktop "release\Lettuce-$Version-x64.exe"),
+    (Join-Path $desktop "release\Lettuce-$Version-x64.exe.blockmap"),
+    (Join-Path $desktop 'release\latest.yml'),
+    (Join-Path $desktop 'Lettuce-Plugin.rbxm')
+)
+gh release create $tag $assets --verify-tag --title "Lettuce $Version" --notes 'See the in-app update log and CHANGELOG.md for everything included in this release.'
+Write-Host "Published Lettuce $Version."

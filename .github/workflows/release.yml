@@ -56,12 +56,28 @@ jobs:
             git tag "v${{ inputs.version }}"
             git push origin "v${{ inputs.version }}"
           }
-      - name: Publish GitHub release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run release:win --prefix desktop
-      - name: Upload Studio plugin separately
+      - name: Package Windows release
+        run: npm run package:win --prefix desktop
+      - name: Publish one complete GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh
-        run: gh release upload "v${{ inputs.version }}" desktop/Lettuce-Plugin.rbxm --clobber
+        run: |
+          $tag = "v${{ inputs.version }}"
+          $assets = @(
+            "desktop/release/Lettuce-${{ inputs.version }}-x64.exe",
+            "desktop/release/Lettuce-${{ inputs.version }}-x64.exe.blockmap",
+            "desktop/release/latest.yml",
+            "desktop/Lettuce-Plugin.rbxm"
+          )
+          $notes = @"
+          See the in-app update log and CHANGELOG.md for everything included in this release.
+
+          Existing updater-enabled installations download this update automatically and install it when Lettuce exits.
+          "@
+          if (gh release view $tag *> $null) {
+            gh release upload $tag $assets --clobber
+            gh release edit $tag --title "Lettuce ${{ inputs.version }}" --notes $notes
+          } else {
+            gh release create $tag $assets --verify-tag --title "Lettuce ${{ inputs.version }}" --notes $notes
+          }

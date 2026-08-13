@@ -36,7 +36,10 @@ type UploadJob struct {
 	Progress      int    `json:"progress"`
 	Attempt       int    `json:"attempt"`
 	Status        string `json:"status"`
+	finishedAt    time.Time
 }
+
+const terminalJobRetention = 30 * time.Second
 
 // AppState holds all application state shared between screens.
 type AppState struct {
@@ -162,26 +165,65 @@ func (s *AppState) startJobs(ids []int64) {
 
 func (s *AppState) completeJob(oldID, newID int64) {
 	s.mu.Lock()
-	defer s.mu.Unlock()
 	source := strconv.FormatInt(oldID, 10)
+	var finishedAt time.Time
 	for i := range s.Queue {
 		if s.Queue[i].SourceAssetID == source {
 			s.Queue[i].ResultAssetID = strconv.FormatInt(newID, 10)
 			s.Queue[i].Progress = 100
 			s.Queue[i].Status = "complete"
-			return
+			finishedAt = time.Now()
+			s.Queue[i].finishedAt = finishedAt
+			break
 		}
+	}
+	s.mu.Unlock()
+	if !finishedAt.IsZero() {
+		go s.removeFinishedJobAfter(source, finishedAt, terminalJobRetention)
 	}
 }
 
 func (s *AppState) finishJobs() {
 	s.mu.Lock()
-	defer s.mu.Unlock()
+	type finishedJob struct {
+		source     string
+		finishedAt time.Time
+	}
+	finished := make([]finishedJob, 0)
 	for i := range s.Queue {
-		if s.Queue[i].Status != "complete" {
+		if s.Queue[i].Status != "complete" && s.Queue[i].Status != "failed" {
 			s.Queue[i].Progress = 100
 			s.Queue[i].Status = "failed"
+			s.Queue[i].finishedAt = time.Now()
+			finished = append(finished, finishedJob{s.Queue[i].SourceAssetID, s.Queue[i].finishedAt})
 		}
+	}
+	s.mu.Unlock()
+	for _, job := range finished {
+		go s.removeFinishedJobAfter(job.source, job.finishedAt, terminalJobRetention)
+	}
+}
+
+func (s *AppState) removeFinishedJobAfter(source string, finishedAt time.Time, delay time.Duration) {
+	timer := time.NewTimer(delay)
+	defer timer.Stop()
+	<-timer.C
+
+	s.mu.Lock()
+	kept := s.Queue[:0]
+	removed := false
+	for _, job := range s.Queue {
+		if job.SourceAssetID == source && job.finishedAt.Equal(finishedAt) && (job.Status == "complete" || job.Status == "failed") {
+			removed = true
+			continue
+		}
+		kept = append(kept, job)
+	}
+	s.Queue = kept
+	cb := s.OnState
+	s.mu.Unlock()
+	if removed && cb != nil {
+		cb()
 	}
 }
 
