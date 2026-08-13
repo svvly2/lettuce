@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ActivityView } from './components/ActivityView';
 import { Icon } from './components/Icon';
 import { ProfileMenu } from './components/ProfileMenu';
 import { QueueView } from './components/QueueView';
@@ -26,7 +27,7 @@ export function App() {
       </header>
       <section className="view" key={page}>
         {page === 'queue' && <QueueView jobs={snapshot.queue} retry={(id) => void retry(id)} clear={() => void clearCompleted()} />}
-        {page === 'activity' && <><div className="page-heading"><div><h1>activity</h1><p>uploads, retries, and studio stuff.</p></div></div><section className="panel logs">{snapshot.logs.length ? snapshot.logs.map((log) => <div key={log.id}><time>{log.at}</time><span className={log.level} /><p>{log.message}</p></div>) : <div className="empty"><h3>quiet in here</h3><p>events show up when studio connects.</p></div>}</section></>}
+        {page === 'activity' && <ActivityView logs={snapshot.logs} />}
       </section>
       {page === 'queue' && <ReleaseNotice version={snapshot.version} />}
       <nav className="dock" aria-label="Main navigation">

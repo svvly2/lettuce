@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.16
+
+- Made failed uploads immediately visible with a consistent red error state.
+- Kept Queue and Activity at a fixed size regardless of item count.
+- Added dedicated, natural scrolling inside Queue and Activity lists.
+- Prevented animation and activity content from scrolling or resizing the main page.
+- Added a clean, expandable in-app history of previous updates.
+
 ## 0.1.15
 
 - Added a compact, once-per-version release note on the main page.
